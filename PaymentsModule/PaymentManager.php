@@ -82,14 +82,13 @@ class PaymentManager extends Object
 				$last = NULL;
 
 				foreach ($payments as $payment) {
-					$e = $this->paymentRepository->findOneBy(array('paymentId' => $payment->getPaymentId()));
-
-					if (!$e) {
-						$payment->setAccount($account);
-						$this->paymentRepository->save($payment);
-
-						$last = $payment;
+					if ($this->paymentRepository->findOneBy(array('paymentId' => $payment->getPaymentId())) || $this->paymentRepository->findOneBy(array('instructionId' => $payment->getInstructionId()))) {
+						continue;
 					}
+
+					$payment->setAccount($account);
+					$this->paymentRepository->save($payment);
+					$last = $payment;
 				}
 
 				if ($last instanceof PaymentEntity) {
