@@ -72,3 +72,6 @@ factories:
 			description: 'Payments'
 			priority: 0
 		]]
+
+includes:
+	- pages.payments.neon
